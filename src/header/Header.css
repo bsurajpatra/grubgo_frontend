@@ -1,0 +1,114 @@
+.header {
+    width: 100%;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-fixed);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+  
+  .nav {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav__logo-container {
+    flex: 1;
+  }
+  
+  .nav__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4CAF50;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-left: 20px;
+  }
+  
+  .nav__menu {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .nav__list {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .nav__link {
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .nav__link:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .nav__order-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+  }
+  
+  .order-now-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s;
+  }
+  
+  .order-now-button:hover {
+    background-color: #388E3C;
+  }
+
+  .mobile-hidden {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header {
+      flex-direction: row;
+      height: auto;
+      padding: 1rem;
+    }
+    
+    .nav {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .nav__logo {
+      margin-left: 0;
+      margin-right: 0;
+      font-size: 2rem;
+    }
+    
+    .nav__order-button-container {
+      margin-right: 0;
+      width: auto;
+    }
+  }

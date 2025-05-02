@@ -1,0 +1,50 @@
+.mit-license-container {
+  max-width: 1000px;
+  margin: 120px auto 40px;
+  padding: 0 20px;
+  min-height: calc(100vh - 200px);
+}
+
+.mit-license-container h1 {
+  color: #4CAF50;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.mit-license-container p {
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  text-align: justify;
+}
+
+.mit-license-container p:first-of-type {
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.mit-license-container p:last-of-type {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media screen and (max-width: 768px) {
+  .mit-license-container {
+    padding: 0 15px;
+    margin: 60px auto 30px;
+  }
+
+  .mit-license-container h1 {
+    font-size: 2rem;
+  }
+
+  .mit-license-container p {
+    font-size: 1rem;
+  }
+}
