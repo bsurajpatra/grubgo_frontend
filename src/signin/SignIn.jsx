@@ -31,20 +31,29 @@ function SignIn() {
     setError('');
   
     try {
+      console.log("Login attempt with:", formData);
+      console.log("Sending request to:", API_ENDPOINTS.LOGIN);
+      
       const response = await axios.post(API_ENDPOINTS.LOGIN, formData, axiosConfig);
+      console.log("Login response:", response.data);
+      
       const data = response.data;
   
       if (data && data.token) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', formData.email);
         localStorage.setItem('role', data.role);
-  
+        console.log("Login successful, navigating to dashboard");
         navigate('/dashboard', { replace: true });
       } else {
-        setError('Invalid credentials');
+        console.error("Invalid response format:", data);
+        setError('Server response format is invalid');
       }
     } catch (error) {
-      setError(handleApiError(error));
+      console.error("Login error:", error);
+      const errorMsg = handleApiError(error);
+      console.error("Processed error message:", errorMsg);
+      setError(errorMsg);
     }
   };
 
