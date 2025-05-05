@@ -20,35 +20,36 @@ export const authAxiosConfig = () => ({
 });
 
 export const API_ENDPOINTS = {
-  LOGIN: `${API_BASE_URL}/api/auth/login`, 
-  REGISTER: `${API_BASE_URL}/api/auth/register`, 
-  MENU: `${API_BASE_URL}/api/dashboard/menu`, 
+  LOGIN: `${API_BASE_URL}/auth/login`, 
+  REGISTER: `${API_BASE_URL}/auth/register`, 
+  MENU: `${API_BASE_URL}/dashboard/menu`, 
   
   // Restaurant endpoints
-  RESTAURANTS: `${API_BASE_URL}/api/restaurants`,
+  RESTAURANTS: `${API_BASE_URL}/restaurants`,
   RESTAURANT_MENU: (id) => `${API_BASE_URL}/restaurants/${id}/menu`,
   
   // Order endpoints
-  ORDERS: `${API_BASE_URL}/api/orders`,
-  ORDER_HISTORY: `${API_BASE_URL}/api/orders/history`,
-  RECENT_ORDERS: `${API_BASE_URL}/api/orders/recent`,
+  ORDERS: `${API_BASE_URL}/orders`,
+  ORDER_HISTORY: `${API_BASE_URL}/orders/history`,
+  RECENT_ORDERS: `${API_BASE_URL}/orders/recent`,
   
   // Delivery endpoints
-  DELIVERIES: `${API_BASE_URL}/api/deliveries`,
-  NEW_DELIVERIES: `${API_BASE_URL}/api/deliveries/new`,
-  DELIVERY_HISTORY: `${API_BASE_URL}/api/deliveries/history`,
+  DELIVERIES: `${API_BASE_URL}/deliveries`,
+  NEW_DELIVERIES: `${API_BASE_URL}/deliveries/new`,
+  DELIVERY_HISTORY: `${API_BASE_URL}/deliveries/history`,
   
   // Community endpoints
-  COMMUNITY_COMMISSION: `${API_BASE_URL}/api/community/commission`,
+  COMMUNITY_COMMISSION: `${API_BASE_URL}/community/commission`,
   
   // Admin endpoints
-  ADMIN_USERS: `${API_BASE_URL}/api/super-admin/users`,
-  ADMIN_RESTAURANTS: `${API_BASE_URL}/api/super-admin/restaurants`,
-  ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/api/super-admin/delivery-partners`,
-  ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/api/super-admin/community-presidents`,
+  ADMIN_USERS: `${API_BASE_URL}/super-admin/users`,
+  ADMIN_RESTAURANTS: `${API_BASE_URL}/super-admin/restaurants`,
+  ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/super-admin/delivery-partners`,
+  ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/super-admin/community-presidents`,
   
   // User profile
-  PROFILE: `${API_BASE_URL}/api/user/profile`
+  PROFILE: `${API_BASE_URL}/user/profile`,
+  FORGOT_PASSWORD: `${API_BASE_URL}/password/forgot`
 };
 
 export const handleApiError = (error) => {

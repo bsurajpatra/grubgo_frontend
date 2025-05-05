@@ -8,6 +8,8 @@ import { Routes, Route } from 'react-router-dom';
 import MITLicense from './mitlicense/MITLicense';
 import TermsOfService from './termsofservice/TermsOfService';
 import PrivateRoute from './PrivateRoute';
+import ForgotPassword from './forgotpassword/ForgotPassword';
+
 
 const App = () => {
   return (
@@ -17,6 +19,7 @@ const App = () => {
       <Route path="/license" element={<MITLicense />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} /> 
       
       {/* Now protect dashboard */}
       <Route path="/dashboard" element={
