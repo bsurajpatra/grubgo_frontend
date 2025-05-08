@@ -1,131 +1,278 @@
+/* Dashboard.css - Responsive styles for both desktop and mobile */
+
+/* Base styles and variables */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #f8f9fa;
+  --accent-color: #5cb85c;
+  --text-color: #333;
+  --light-text: #666;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+/* General container styles */
+.dashboard-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7f9;
+}
+
 .dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f8f9fa;
-    min-height: 100vh;
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.app-logo {
+  height: 50px;
+  margin-right: 12px;
+}
+
+.app-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+  letter-spacing: -0.5px;
+  color: #4CAF50;
+}
+
+.logout-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  display: inline-block;
+  width: auto;
+  min-width: fit-content;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  background-color: #d9534f;
+}
+
+.logout-button:hover {
+  background-color: #e60800;
+  transform: translateY(-2px);
+}
+
+/* Welcome section styles */
+.welcome-role-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.welcome-message {
+  margin: 0 0 8px 0;
+  font-size: 1.8rem;
+  color: var(--text-color);
+}
+
+.role-badge {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* Quote section styles */
+.quote-section {
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: center;
+  box-shadow: var(--box-shadow);
+}
+
+.random-quote {
+  font-style: italic;
+  color: var(--light-text);
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Card container and menu items */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.menu-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.menu-card h3 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Loading and error states */
+.loading, 
+.error-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: var(--light-text);
+}
+
+.error-message {
+  color: #d9534f;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Media Queries for Responsive Design */
+
+/* Tablet and smaller desktop */
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
   
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e1e1e1;
-    flex-wrap: wrap;
+  .welcome-message {
+    font-size: 1.6rem;
   }
-  
-  .dashboard-header h1 {
-    margin: 0;
-    color: #333;
-    font-size: 1.8rem;
-  }
-  
-  .role-badge {
-    background-color: #4CAF50;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 500;
-    margin: 0;
-  }
-  
-  .logout-button {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-button:hover {
-    background-color: #d32f2f;
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
   }
   
   .card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
   }
   
   .menu-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 20px 16px;
   }
   
-  .menu-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  .welcome-message {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 576px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .logo-title {
+    margin-bottom: 8px;
+  }
+  
+  .app-title {
+    font-size: 1.5rem;
+  }
+  
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .menu-card {
+    flex-direction: row;
+    text-align: left;
+    padding: 16px;
+    justify-content: flex-start;
   }
   
   .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0;
+    margin-right: 16px;
   }
   
-  .menu-card h3 {
-    margin: 0;
+  .welcome-role-container {
+    align-items: center;
     text-align: center;
-    color: #333;
   }
   
-  .loading {
-    text-align: center;
-    margin-top: 2rem;
-    color: #666;
+  .role-badge {
+    align-self: center;
+  }
+  
+  .welcome-message {
+    font-size: 1.3rem;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+  
+  .welcome-message {
     font-size: 1.2rem;
   }
   
-  .error-message {
-    color: #f44336;
-    text-align: center;
-    background-color: #ffebee;
-    padding: 1rem;
-    border-radius: 4px;
-    margin: 1rem 0;
+  .menu-card {
+    padding: 12px;
   }
   
-  @media (max-width: 768px) {
-    .dashboard-container {
-      padding: 1rem;
-    }
-    
-    .dashboard-header {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-    
-    .role-badge {
-      margin: 0.5rem 0;
-    }
-    
-    .logout-button {
-      margin-top: 1rem;
-    }
-    
-    .card-container {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    
-    .menu-card {
-      padding: 1rem;
-    }
-    
-    .loading,
-    .error-message {
-      font-size: 1rem;
-    }
+  .card-icon {
+    font-size: 1.8rem;
+    margin-right: 12px;
   }
+}

@@ -1,12 +1,89 @@
-# React + Vite
+# GrubGo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+GrubGo is a web application that allows users to sign up, log in, and manage their food delivery orders. The application provides a user-friendly interface for customers, restaurant owners, delivery partners, and administrators.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Environment Variables](#environment-variables)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User authentication (Sign Up, Sign In)
+- Role-based access for different users (Customer, Restaurant Owner, Delivery Partner, Admin)
+- Menu management for restaurants
+- Order history and recent orders tracking
+- Community features for managing delivery partners and community presidents
+
+## Technologies Used
+
+- React.js
+- Vite (for development and build)
+- Axios (for API requests)
+- React Router (for routing)
+- CSS for styling
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/grubgo.git
+   cd grubgo
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory and add your environment variables:
+   ```plaintext
+   VITE_API_BASE_URL=http://localhost:8080/api
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Usage
+
+- Navigate to `http://localhost:3000` in your browser.
+- Use the Sign Up page to create a new account.
+- Log in using your credentials.
+- Access the dashboard to manage your orders and view menus.
+
+## API Endpoints
+
+The application interacts with the following API endpoints:
+
+- **Login**: `POST /auth/login`
+- **Register**: `POST /auth/register`
+- **Menu**: `GET /dashboard/menu`
+- **Restaurants**: `GET /restaurants`
+- **Orders**: `GET /orders`
+- **Delivery History**: `GET /deliveries/history`
+- **User Profile**: `GET /user/profile`
+- **Forgot Password**: `POST /password/forgot`
+
+## Environment Variables
+
+Make sure to set the following environment variables in your `.env` file:
+
+```plaintext
+VITE_API_BASE_URL=http://localhost:8080/api
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

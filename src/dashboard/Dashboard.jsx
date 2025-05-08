@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
 import { API_ENDPOINTS, authAxiosConfig } from '../config';
+import Footer from '../footer/Footer';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,6 +13,16 @@ const Dashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [randomQuote, setRandomQuote] = useState('');
+
+  const quotes = [
+    "Good food is good mood.",
+    "Delivering happiness, one bite at a time.",
+    "Your community, your cuisine.",
+    "Every order counts, every delivery matters.",
+    "Taste the joy of convenience.",
+    "Fueling connections through food."
+  ];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -32,8 +43,8 @@ const Dashboard = () => {
       try {
         setLoading(true);
         const response = await axios.get(API_ENDPOINTS.MENU, authAxiosConfig());
-        
-        if (response.data && response.data.menuItems) {
+
+        if (response.data?.menuItems) {
           setMenuItems(response.data.menuItems);
           if (response.data.name && !storedName) {
             setName(response.data.name);
@@ -43,9 +54,7 @@ const Dashboard = () => {
           setMenuItems(getDefaultMenuItems(storedRole));
         }
       } catch (err) {
-        console.error('Error fetching menu items:', err);
         setError('Using default menu options.');
-        
         setMenuItems(getDefaultMenuItems(storedRole));
       } finally {
         setLoading(false);
@@ -53,144 +62,106 @@ const Dashboard = () => {
     };
 
     fetchMenuItems();
-    
-    // Prevent going back to login page
-    window.history.pushState(null, '', window.location.href);
-    const handlePopState = () => {
-      window.history.pushState(null, '', window.location.href);
-    };
-    window.addEventListener('popstate', handlePopState);
+    setRandomQuote(quotes[Math.floor(Math.random() * quotes.length)]);
 
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
+    // Prevent back navigation
+    window.history.pushState(null, '', window.location.href);
+    const handlePopState = () => window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [navigate]);
 
   const handleMenuItemClick = (item) => {
-    switch (item) {
-      case 'Browse Restaurants':
-        navigate('/restaurants');
-        break;
-      case 'Order History':
-        navigate('/order-history');
-        break;
-      case 'Profile':
-        navigate('/profile');
-        break;
-      case 'View Recent Orders':
-        navigate('/recent-orders');
-        break;
-      case 'Update Menu':
-        navigate('/update-menu');
-        break;
-      case 'View New Deliveries':
-        navigate('/new-deliveries');
-        break;
-      case 'Delivery History':
-        navigate('/delivery-history');
-        break;
-      case 'View Restaurants/Partners':
-        navigate('/restaurants-partners');
-        break;
-      case 'Set Local Commission':
-        navigate('/set-commission');
-        break;
-      case 'Manage Users':
-        navigate('/manage-users');
-        break;
-      case 'Manage Restaurants':
-        navigate('/manage-restaurants');
-        break;
-      case 'Manage Delivery Partners':
-        navigate('/manage-delivery-partners');
-        break;
-      case 'Manage Community Presidents':
-        navigate('/manage-community-presidents');
-        break;
-      default:
-        navigate('/dashboard');
-        break;
-    }
+    const routes = {
+      'Browse Restaurants': '/restaurants',
+      'Order History': '/order-history',
+      'Profile': '/profile',
+      'View Recent Orders': '/recent-orders',
+      'Update Menu': '/update-menu',
+      'View New Deliveries': '/new-deliveries',
+      'Delivery History': '/delivery-history',
+      'View Restaurants/Partners': '/restaurants-partners',
+      'Set Local Commission': '/set-commission',
+      'Manage Users': '/manage-users',
+      'Manage Restaurants': '/manage-restaurants',
+      'Manage Delivery Partners': '/manage-delivery-partners',
+      'Manage Community Presidents': '/manage-community-presidents',
+    };
+    navigate(routes[item] || '/dashboard');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    localStorage.removeItem('role');
-    localStorage.removeItem('name');
-    localStorage.removeItem('userId');
+    ['token', 'email', 'role', 'name', 'userId'].forEach(key => {
+      localStorage.removeItem(key);
+    });
     navigate('/', { replace: true });
   };
 
-  const getRoleDisplay = () => {
-    if (!role) return '';
-    
-    return role.replace('_', ' ').toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
-  };
+  const getRoleDisplay = () =>
+    role?.replace('_', ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 
-  const getIconForMenuItem = (item) => {
-    const iconMap = {
-      'Browse Restaurants': '🍔',
-      'Order History': '📜',
-      'Profile': '👤',
-      'View Recent Orders': '🔔',
-      'Update Menu': '🍽️',
-      'View New Deliveries': '🚚',
-      'Delivery History': '📦',
-      'View Restaurants/Partners': '🏪',
-      'Set Local Commission': '💰',
-      'Manage Users': '👥',
-      'Manage Restaurants': '🏢',
-      'Manage Delivery Partners': '🚚',
-      'Manage Community Presidents': '👑'
-    };
-    
-    return iconMap[item] || '📋';
-  };
+  const getIconForMenuItem = (item) => ({
+    'Browse Restaurants': '🍔',
+    'Order History': '📜',
+    'Profile': '👤',
+    'View Recent Orders': '🔔',
+    'Update Menu': '🍽️',
+    'View New Deliveries': '🚚',
+    'Delivery History': '📦',
+    'View Restaurants/Partners': '🏪',
+    'Set Local Commission': '💰',
+    'Manage Users': '👥',
+    'Manage Restaurants': '🏢',
+    'Manage Delivery Partners': '🚚',
+    'Manage Community Presidents': '👑'
+  }[item] || '📋');
 
-  const getDefaultMenuItems = (role) => {
-    switch (role) {
-      case 'CUSTOMER':
-        return ['Browse Restaurants', 'Order History', 'Profile'];
-      case 'RESTAURANT_OWNER':
-        return ['View Recent Orders', 'Update Menu', 'Order History', 'Profile'];
-      case 'DELIVERY_PARTNER':
-        return ['View New Deliveries', 'Delivery History', 'Profile'];
-      case 'COMMUNITY_PRESIDENT':
-        return ['View Restaurants/Partners', 'Set Local Commission', 'Profile'];
-      case 'SUPER_ADMIN':
-        return ['Manage Users', 'Manage Restaurants', 'Manage Delivery Partners', 'Manage Community Presidents', 'Profile'];
-      default:
-        return ['Profile'];
-    }
-  };
+  const getDefaultMenuItems = (role) => ({
+    'CUSTOMER': ['Browse Restaurants', 'Order History', 'Profile'],
+    'RESTAURANT_OWNER': ['View Recent Orders', 'Update Menu', 'Order History', 'Profile'],
+    'DELIVERY_PARTNER': ['View New Deliveries', 'Delivery History', 'Profile'],
+    'COMMUNITY_PRESIDENT': ['View Restaurants/Partners', 'Set Local Commission', 'Profile'],
+    'SUPER_ADMIN': ['Manage Users', 'Manage Restaurants', 'Manage Delivery Partners', 'Manage Community Presidents', 'Profile']
+  }[role] || ['Profile']);
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-wrapper">
+      <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>Welcome, {name || email || 'Guest'}</h1>
-        {role && <p className="role-badge">{getRoleDisplay()}</p>}
-        <button onClick={handleLogout} className="logout-button">Logout</button>
-      </header>
+  <div className="logo-title">
+    <img src="/logo.png" alt="GrubGo Logo" className="app-logo" />
+    <h2 className="app-title">GrubGo</h2>
+  </div>
+  <div className="header-right">
+    {role && <p className="role-badge">{getRoleDisplay()}</p>}
+    <button onClick={handleLogout} className="logout-button">Logout</button>
+  </div>
+</header>
 
-      {loading ? (
-        <div className="loading">Loading dashboard...</div>
-      ) : error ? (
-        <div className="error-message">{error}</div>
-      ) : (
-        <div className="card-container">
-          {menuItems.map((item, index) => (
-            <div 
-              key={index} 
-              className="menu-card" 
-              onClick={() => handleMenuItemClick(item)}
-            >
-              <div className="card-icon">{getIconForMenuItem(item)}</div>
-              <h3>{item}</h3>
-            </div>
-          ))}
+        <div className="welcome-role-container">
+          <h1 className="welcome-message">Welcome, {name || email || 'Guest'}</h1>
         </div>
-      )}
+
+        <div className="quote-section">
+          <p className="random-quote">“{randomQuote}”</p>
+        </div>
+
+        {loading ? (
+          <div className="loading">Loading dashboard...</div>
+        ) : error ? (
+          <div className="error-message">{error}</div>
+        ) : (
+          <div className="card-container">
+            {menuItems.map((item, index) => (
+              <div key={index} className="menu-card" onClick={() => handleMenuItemClick(item)}>
+                <div className="card-icon">{getIconForMenuItem(item)}</div>
+                <h3>{item}</h3>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <Footer />
     </div>
   );
 };
