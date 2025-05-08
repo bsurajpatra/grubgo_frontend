@@ -1,11 +1,20 @@
+/* SignIn.css with footer positioning fix */
+
+/* Create a wrapper to control overall page layout */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+}
+
 .signin-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 40px;
+  padding: 60px 40px;
   background-color: white;
   gap: 40px;
-  min-height: calc(100vh - 120px); 
+  flex: 1; /* This makes the container take available space */
 }
 
 .logo-container {
@@ -16,24 +25,24 @@
 }
 
 .signin-logo {
-  max-width: 250px; 
-  height: auto; /
+  max-width: 250px;
+  height: auto;
 }
 
 .login-fields {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
+  align-items: flex-start;
 }
 
 .form-group {
-  margin-bottom: 2rem; 
-  width: 100%; /
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
 label {
-  margin-bottom: 0.5rem; 
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
@@ -55,7 +64,7 @@ input {
 }
 
 .signin-button:hover {
-  background-color: #45a049; 
+  background-color: #45a049;
 }
 
 .signin-footer {
@@ -67,13 +76,31 @@ input {
   color: white;
 }
 
-.footer-link {
-  color: #4CAF50;
-  text-decoration: none; 
+.signin-footer .footer-link {
+  color: #000000;
+  text-decoration: none;
 }
 
-.footer-link:hover {
-  text-decoration: underline; 
+.signin-footer .footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Error message styling */
+.error-message {
+  color: #d9534f;
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(217, 83, 79, 0.1);
+  border-radius: 4px;
+}
+.grubgo-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4CAF50;
+  margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Responsive Design */
@@ -82,7 +109,6 @@ input {
     flex-direction: column; /* Stack items vertically */
     padding: 40px 20px; /* Adjust padding */
     justify-content: center; /* Center items vertically */
-    min-height: 100vh; /* Ensure full height for centering */
   }
 
   .signin-logo {
@@ -93,4 +119,16 @@ input {
   input {
     width: 100%; /* Full width for inputs */
   }
+  
+  .signin-footer {
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* Specifically target footer inside the signin page */
+.page-wrapper .footer {
+  margin-top: 0; /* Remove any top margin that might create space */
+  width: 100%;
 }

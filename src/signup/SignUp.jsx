@@ -115,7 +115,8 @@ function SignUp() {
           <img src="/logo.png" alt="Logo" className="signup-logo" />
         </div>
         <div className="signup-fields">
-          <h1 className="signup-title">Sign Up</h1>
+        <h1 className="grubgo-title">GrubGo</h1>
+          <h2 className="signup-title">Sign Up</h2>
           
           {error && (
             <div className="error-message">

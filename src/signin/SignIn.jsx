@@ -58,13 +58,14 @@ function SignIn() {
   };
 
   return (
-    <>
+    <div className="page-wrapper">
       <div className="signin-container">
         <div className="logo-container">
           <img src="/logo.png" alt="Logo" className="signin-logo" />
         </div>
         <div className="login-fields">
-          <h1 style={{ color: '#4CAF50', textAlign: 'center', marginBottom: '3rem' }}>The Key to Happiness - SignIn</h1>
+        <h1 className="grubgo-title">GrubGo</h1>
+          <h2 style={{ color: 'Black', textAlign: 'center', marginBottom: '3rem' }}>The Key to Happiness - SignIn</h2>
           {error && <div className="error-message">{error}</div>}
           <form className="signin__form" onSubmit={handleSubmit}>
             <div className="form-group">
@@ -99,7 +100,7 @@ function SignIn() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
