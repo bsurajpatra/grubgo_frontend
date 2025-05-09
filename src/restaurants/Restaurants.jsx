@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_ENDPOINTS } from '../config';
 import './Restaurants.css';
 
-// Ensure the base URL is correctly set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'; // Fallback to localhost if not set
-const API_ENDPOINTS = {
-  RESTAURANTS: `${API_BASE_URL}/restaurants`, // Updated to match the correct endpoint
-  RESTAURANT_MENU: (id) => `${API_BASE_URL}/restaurants/${id}/menu`,
-  USER_PROFILE: `${API_BASE_URL}/user/profile`,
-};
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -19,6 +13,8 @@ const Restaurants = () => {
   const [error, setError] = useState(null);
   const [userLocation, setUserLocation] = useState('');
   const [isUserLocationLoading, setIsUserLocationLoading] = useState(false);
+  const [activeLocation, setActiveLocation] = useState('');
+  const [searchLocation, setSearchLocation] = useState('');
   const navigate = useNavigate();
 
   const getAuthToken = () => localStorage.getItem('token');
@@ -50,9 +46,9 @@ const Restaurants = () => {
         },
       });
       
-      // Assuming the API returns user profile with a location field
-      if (response.data && response.data.location) {
-        setUserLocation(response.data.location);
+      // Check if the API returns user profile with an address field
+      if (response.data && response.data.address) {
+        setUserLocation(response.data.address);
       }
     } catch (err) {
       console.error('Error fetching user location:', err);
@@ -74,9 +70,14 @@ const Restaurants = () => {
 
       // Only use userLocation if provided
       const locationToSearch = searchLocation || '';
+      if (locationToSearch) {
+        setActiveLocation(locationToSearch);
+      } else {
+        setActiveLocation('');
+      }
       
       const endpoint = locationToSearch
-        ? `${API_ENDPOINTS.RESTAURANTS}?location=${encodeURIComponent(locationToSearch)}`
+        ? `${API_ENDPOINTS.RESTAURANTS}?address=${encodeURIComponent(locationToSearch)}`
         : API_ENDPOINTS.RESTAURANTS;
 
       const response = await axios.get(endpoint, {
@@ -122,10 +123,18 @@ const Restaurants = () => {
     fetchRestaurants();
   }, []);
 
-  // Remove location search handlers and keep only useMyLocation
+  // Handle using user's location
   const handleUseMyLocation = () => {
     if (userLocation) {
       fetchRestaurants(userLocation); // Fetch restaurants based on user's location
+    }
+  };
+
+  // Handle search submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchLocation.trim()) {
+      fetchRestaurants(searchLocation.trim());
     }
   };
 
@@ -148,16 +157,39 @@ const Restaurants = () => {
         <h2>Restaurants</h2>
         <button className="back-button" onClick={handleBackToDashboard}>← Back to Dashboard</button>
       </div>
-      <div className="location-search">
-        <button 
-          type="button" 
-          onClick={handleUseMyLocation} 
-          disabled={isUserLocationLoading || !userLocation}
-          className="my-location-button"
-        >
-          {isUserLocationLoading ? 'Loading...' : 'Use My Location'}
-        </button>
+      
+      <div className="location-controls">
+        <div className="search-container">
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Enter location to search..."
+              value={searchLocation}
+              onChange={(e) => setSearchLocation(e.target.value)}
+              className="search-input"
+            />
+            <button type="submit" className="search-button">Search</button>
+          </form>
+        </div>
+        
+        <div className="location-search">
+          <button 
+            type="button" 
+            onClick={handleUseMyLocation} 
+            disabled={isUserLocationLoading || !userLocation}
+            className="my-location-button"
+          >
+            {isUserLocationLoading ? 'Loading...' : 'Use My Location'}
+          </button>
+        </div>
+        
+        {activeLocation && (
+          <div className="active-location">
+            <p><strong>Showing restaurants near:</strong> {activeLocation}</p>
+          </div>
+        )}
       </div>
+      
       {loading ? (
         <p>Loading restaurants...</p>
       ) : error ? (
@@ -182,9 +214,9 @@ const Restaurants = () => {
               <div className="restaurant-info">
                 <h3>{restaurant.name}</h3>
                 <p>{restaurant.cuisineType}</p>
-                <p>{restaurant.location}</p>
-                {restaurant.averageRating && (
-                  <div className="rating">★ {restaurant.averageRating.toFixed(1)}</div>
+                <p>{restaurant.address}</p>
+                {restaurant.rating && (
+                  <div className="rating">★ {restaurant.rating.toFixed(1)}</div>
                 )}
               </div>
             </div>
@@ -217,9 +249,9 @@ const Restaurants = () => {
             <p>{restaurant.description}</p>
             <div className="restaurant-meta">
               <span>{restaurant.cuisineType}</span>
-              <span>{restaurant.location}</span>
-              {restaurant.averageRating && (
-                <span className="rating">★ {restaurant.averageRating.toFixed(1)}</span>
+              <span>{restaurant.address}</span>
+              {restaurant.rating && (
+                <span className="rating">★ {restaurant.rating.toFixed(1)}</span>
               )}
             </div>
           </div>

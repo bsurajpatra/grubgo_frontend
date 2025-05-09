@@ -49,7 +49,7 @@ export const API_ENDPOINTS = {
   ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/super-admin/community-presidents`,
   
   // User profile
-  PROFILE: `${API_BASE_URL}/user/profile`,
+  USER_PROFILE: `${API_BASE_URL}/user/profile`,
   FORGOT_PASSWORD: `${API_BASE_URL}/password/forgot`
 };
 
