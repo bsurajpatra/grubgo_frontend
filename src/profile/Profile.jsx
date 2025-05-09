@@ -42,6 +42,7 @@ const Profile = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
+      console.log("Using token:", token); // Debug log
       
       const response = await axios.get(API_ENDPOINTS.USER_PROFILE, {
         headers: {
@@ -61,7 +62,13 @@ const Profile = () => {
       setError(null);
     } catch (err) {
       console.error('Error fetching user profile:', err);
-      setError('Unable to fetch profile information. Please try again later.');
+      if (err.response && err.response.status === 401) {
+        // If unauthorized, redirect to login
+        localStorage.removeItem('token');
+        navigate('/signin');
+      } else {
+        setError('Unable to fetch profile information. Please try again later.');
+      }
     } finally {
       setLoading(false);
     }
@@ -101,7 +108,12 @@ const Profile = () => {
       setTimeout(() => setSuccessMessage(''), 3000);
     } catch (err) {
       console.error('Error updating profile:', err);
-      setError('Unable to update profile. Please try again later.');
+      if (err.response && err.response.status === 401) {
+        localStorage.removeItem('token');
+        navigate('/signin');
+      } else {
+        setError('Unable to update profile. Please try again later.');
+      }
     } finally {
       setLoading(false);
     }
@@ -147,12 +159,41 @@ const Profile = () => {
     } catch (err) {
       console.error('Error changing password:', err);
       if (err.response && err.response.status === 401) {
-        setPasswordError('Current password is incorrect');
+        if (err.response.data && err.response.data.error) {
+          setPasswordError(err.response.data.error);
+        } else {
+          setPasswordError('Current password is incorrect');
+        }
       } else {
         setPasswordError('Unable to change password. Please try again later.');
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      try {
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        
+        await axios.delete(API_ENDPOINTS.DELETE_ACCOUNT, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        // Clear local storage and redirect to home
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate('/');
+      } catch (err) {
+        console.error('Error deleting account:', err);
+        setError('Failed to delete account. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -356,7 +397,12 @@ const Profile = () => {
                 >
                   Change Password
                 </button>
-                <button className="option-button danger">Delete Account</button>
+                <button 
+                  className="option-button danger"
+                  onClick={handleDeleteAccount}
+                >
+                  Delete Account
+                </button>
               </div>
             )}
           </>
@@ -367,4 +413,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Profile; 

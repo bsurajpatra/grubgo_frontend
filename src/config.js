@@ -1,5 +1,5 @@
 // Fallback to localhost if environment variable is not set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -21,8 +21,9 @@ export const authAxiosConfig = () => ({
 });
 
 export const API_ENDPOINTS = {
-  LOGIN: `${API_BASE_URL}/auth/login`, 
-  REGISTER: `${API_BASE_URL}/auth/register`, 
+  // Authentication - update these to match your backend
+  LOGIN: `${API_BASE_URL}/user/login`, 
+  REGISTER: `${API_BASE_URL}/user/register`, 
   MENU: `${API_BASE_URL}/dashboard/menu`, 
   
   // Restaurant endpoints
@@ -47,8 +48,11 @@ export const API_ENDPOINTS = {
   ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/super-admin/delivery-partners`,
   ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/super-admin/community-presidents`,
   
-  // User profile
+  // User profile - add the missing endpoints
   USER_PROFILE: `${API_BASE_URL}/user/profile`,
+  UPDATE_PROFILE: `${API_BASE_URL}/user/profile`,
+  CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
+  DELETE_ACCOUNT: `${API_BASE_URL}/user/account`,
   FORGOT_PASSWORD: `${API_BASE_URL}/password/forgot`
 };
 
