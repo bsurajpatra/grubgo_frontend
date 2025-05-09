@@ -10,6 +10,7 @@ import TermsOfService from './termsofservice/TermsOfService';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './forgotpassword/ForgotPassword';
 import Restaurants from './restaurants/Restaurants';
+import Profile from './profile/Profile';
 
 
 const App = () => {
@@ -21,12 +22,19 @@ const App = () => {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} /> 
-      <Route path="/restaurants" element={<Restaurants />} />
-
-      {/* Now protect dashboard */}
+      
+      {/* Protected routes */}
       <Route path="/dashboard" element={
         <PrivateRoute>
           <Dashboard />
+        </PrivateRoute>
+      } />
+
+      <Route path="/restaurants" element={<Restaurants />} />
+      
+      <Route path="/profile" element={
+        <PrivateRoute>
+          <Profile />
         </PrivateRoute>
       } />
     </Routes>
