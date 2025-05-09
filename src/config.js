@@ -30,8 +30,7 @@ export const API_ENDPOINTS = {
   RESTAURANT_MENU: (id) => `${API_BASE_URL}/restaurants/${id}/menu`,
   
   // Order endpoints
-  ORDERS: `${API_BASE_URL}/orders`,
-  ORDER_HISTORY: `${API_BASE_URL}/orders/history`,
+  ORDERS: `${API_BASE_URL}/customer/order-history`,
   RECENT_ORDERS: `${API_BASE_URL}/orders/recent`,
   
   // Delivery endpoints

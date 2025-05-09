@@ -64,11 +64,25 @@ const Dashboard = () => {
     fetchMenuItems();
     setRandomQuote(quotes[Math.floor(Math.random() * quotes.length)]);
 
-    // Prevent back navigation
+    // Enhanced prevention of back navigation
     window.history.pushState(null, '', window.location.href);
-    const handlePopState = () => window.history.pushState(null, '', window.location.href);
+    const handlePopState = () => {
+      window.history.pushState(null, '', window.location.href);
+    };
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    
+    // Disable browser refresh
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [navigate]);
 
   const handleMenuItemClick = (item) => {
@@ -143,7 +157,7 @@ const Dashboard = () => {
         </div>
 
         <div className="quote-section">
-          <p className="random-quote">“{randomQuote}”</p>
+          <p className="random-quote">"{randomQuote}"</p>
         </div>
 
         {loading ? (

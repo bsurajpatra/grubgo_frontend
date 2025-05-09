@@ -11,7 +11,7 @@ import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './forgotpassword/ForgotPassword';
 import Restaurants from './restaurants/Restaurants';
 import Profile from './profile/Profile';
-
+import OrderHistory from './orderhistory/OrderHistory';
 
 const App = () => {
   return (
@@ -30,11 +30,21 @@ const App = () => {
         </PrivateRoute>
       } />
 
-      <Route path="/restaurants" element={<Restaurants />} />
+      <Route path="/restaurants" element={
+        <PrivateRoute>
+          <Restaurants />
+        </PrivateRoute>
+      } />
       
       <Route path="/profile" element={
         <PrivateRoute>
           <Profile />
+        </PrivateRoute>
+      } />
+
+      <Route path="/order-history" element={
+        <PrivateRoute>
+          <OrderHistory />
         </PrivateRoute>
       } />
     </Routes>
