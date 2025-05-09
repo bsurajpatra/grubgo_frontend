@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// Fallback to localhost if environment variable is not set
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export const getAuthHeader = () => {
   const token = localStorage.getItem('token');

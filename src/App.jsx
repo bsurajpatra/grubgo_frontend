@@ -9,6 +9,7 @@ import MITLicense from './mitlicense/MITLicense';
 import TermsOfService from './termsofservice/TermsOfService';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './forgotpassword/ForgotPassword';
+import Restaurants from './restaurants/Restaurants';
 
 
 const App = () => {
@@ -20,7 +21,8 @@ const App = () => {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/forgot-password" element={<ForgotPassword />} /> 
-      
+      <Route path="/restaurants" element={<Restaurants />} />
+
       {/* Now protect dashboard */}
       <Route path="/dashboard" element={
         <PrivateRoute>
