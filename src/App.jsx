@@ -20,6 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ManageUsers from './manageusers/ManageUsers';
 import ManageRestaurants from './managerestaurants/ManageRestaurants';
 import ManageDeliveryPartners from './managedeliverypartners/ManageDeliveryPartners';
+import ManageCommunityPresidents from './managecommunitypresidents/ManageCommunityPresidents';
 
 const App = () => {
   return (
@@ -90,6 +91,12 @@ const App = () => {
 <Route path="/manage-delivery-partners" element={
           <PrivateRoute>
             <ManageDeliveryPartners />
+          </PrivateRoute>
+        } />
+
+<Route path="/manage-community-presidents" element={
+          <PrivateRoute>
+            <ManageCommunityPresidents />
           </PrivateRoute>
         } />
       </Routes>
