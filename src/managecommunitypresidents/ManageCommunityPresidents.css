@@ -1,0 +1,59 @@
+.manage-community-presidents {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .manage-community-presidents h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .back-button {
+    background-color: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .back-button:hover {
+    background-color: #3a5ce5;
+  }
+  
+  .back-button:active {
+    background-color: #2a4cd3;
+  }
+  
+  .manage-community-presidents table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .manage-community-presidents th, .manage-community-presidents td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .manage-community-presidents th {
+    background-color: #f2f2f2;
+    color: #555;
+  }
+  
+  .manage-community-presidents .loading,
+  .manage-community-presidents .error,
+  .manage-community-presidents .no-data {
+    text-align: center;
+    color: #777;
+    margin-top: 20px;
+  } 

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../config';
 import './ManageDeliveryPartners.css';
+import { useNavigate } from 'react-router-dom';
 
 const ManageDeliveryPartners = () => {
   const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDeliveryPartners = async () => {
@@ -50,6 +52,12 @@ const ManageDeliveryPartners = () => {
   return (
     <div className="manage-delivery-partners">
       <h2>Manage Delivery Partners</h2>
+      <button 
+          className="back-button" 
+          onClick={() => navigate('/dashboard')}
+        >
+          Back to Dashboard
+        </button>
       {deliveryPartners.length === 0 ? (
         <p className="no-data">No delivery partners found.</p>
       ) : (
