@@ -322,7 +322,7 @@ const Restaurants = () => {
                     <li key={item.itemId} className="cart-item">
                       <div className="cart-item-info">
                         <h4>{item.name}</h4>
-                        <p>${item.price.toFixed(2)} × {item.quantity}</p>
+                        <p>Rs. {item.price.toFixed(2)} × {item.quantity}</p>
                       </div>
                       <div className="cart-item-actions">
                         <button onClick={() => updateQuantity(item.itemId, item.quantity - 1)}>-</button>
@@ -334,7 +334,7 @@ const Restaurants = () => {
                   ))}
                 </ul>
                 <div className="cart-total">
-                  <p>Total: <strong>${calculateTotal().toFixed(2)}</strong></p>
+                  <p>Total: <strong>Rs. {calculateTotal().toFixed(2)}</strong></p>
                   <button onClick={handleCheckout} className="checkout-button">Proceed to Checkout</button>
                 </div>
               </>
@@ -390,7 +390,7 @@ const Restaurants = () => {
                         <div className="menu-item-info">
                           <h5>{item.name}</h5>
                           <p>{item.description}</p>
-                          <span className="price">${item.price.toFixed(2)}</span>
+                          <span className="price">Rs. {item.price.toFixed(2)}</span>
                           
                           {quantity === 0 ? (
                             <button 

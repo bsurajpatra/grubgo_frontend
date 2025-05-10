@@ -14,8 +14,14 @@ const OrderHistory = () => {
         const fetchOrderHistory = async () => {
             try {
                 const response = await axios.get(API_ENDPOINTS.ORDERS);
-                setOrders(response.data);
-                console.log("Orders data:", response.data); // For debugging
+                
+                // Check if response has the expected format with orders array
+                if (response.data && response.data.orders) {
+                    setOrders(response.data.orders);
+                } else {
+                    setOrders([]);
+                }
+                console.log("Orders data:", response.data);
             } catch (err) {
                 setError(err.message);
                 console.error("Error fetching orders:", err);
@@ -42,10 +48,11 @@ const OrderHistory = () => {
                 <ul className="order-list">
                     {orders.map(order => (
                         <li key={order.order_id} className="order-item">
-                            <p>Item: {order.item_name}</p>
-                            <p>Total Amount: ${order.total_amount ? order.total_amount.toFixed(2) : '0.00'}</p>
+                            <p>Order ID: {order.order_id}</p>
+                            <p>Total Amount: Rs. {order.total_amount ? order.total_amount.toFixed(2) : '0.00'}</p>
                             <p>Status: {order.status}</p>
                             <p>Order Date: {order.order_date ? new Date(order.order_date).toLocaleString() : 'N/A'}</p>
+                            <p>Delivery Address: {order.delivery_address || 'N/A'}</p>
                         </li>
                     ))}
                 </ul>

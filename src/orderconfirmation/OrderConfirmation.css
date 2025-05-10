@@ -94,6 +94,18 @@
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-buttons button {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  @media (max-width: 600px) {
+    .action-buttons {
+      flex-direction: column;
+    }
   }
   
   .primary-button, .secondary-button {

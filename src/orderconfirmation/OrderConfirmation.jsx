@@ -10,6 +10,20 @@ const OrderConfirmation = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Calculate values if not provided by API
+  const calculateSubtotal = (items) => {
+    if (!items || items.length === 0) return 0;
+    return items.reduce((total, item) => total + (item.item_price * item.quantity), 0);
+  };
+
+  const calculateTax = (subtotal) => {
+    return subtotal * 0.08; // Assuming 8% tax rate
+  };
+
+  const calculateDeliveryFee = () => {
+    return 2.99; // Fixed delivery fee
+  };
+
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
@@ -78,6 +92,12 @@ const OrderConfirmation = () => {
     );
   }
 
+  // Calculate values if not provided by the API
+  const subtotal = order.subtotal || calculateSubtotal(order.items);
+  const tax = order.tax || calculateTax(subtotal);
+  const deliveryFee = order.delivery_fee || calculateDeliveryFee();
+  const totalAmount = order.total_amount || (subtotal + tax + deliveryFee);
+
   return (
     <div className="order-confirmation-container">
       <div className="order-success-banner">
@@ -103,7 +123,7 @@ const OrderConfirmation = () => {
                 <span className="item-quantity">{item.quantity}x</span>
                 <span className="item-name">{item.item_name}</span>
               </div>
-              <span className="item-price">${(item.item_price * item.quantity).toFixed(2)}</span>
+              <span className="item-price">Rs. {(item.item_price * item.quantity).toFixed(2)}</span>
             </li>
           ))}
         </ul>
@@ -111,19 +131,19 @@ const OrderConfirmation = () => {
         <div className="price-breakdown">
           <div className="price-row">
             <span>Subtotal</span>
-            <span>${order.subtotal?.toFixed(2) || '0.00'}</span>
+            <span>Rs. {subtotal.toFixed(2)}</span>
           </div>
           <div className="price-row">
             <span>Tax</span>
-            <span>${order.tax?.toFixed(2) || '0.00'}</span>
+            <span>Rs. {tax.toFixed(2)}</span>
           </div>
           <div className="price-row">
             <span>Delivery Fee</span>
-            <span>${order.delivery_fee?.toFixed(2) || '0.00'}</span>
+            <span>Rs. {deliveryFee.toFixed(2)}</span>
           </div>
           <div className="price-row total">
             <span>Total</span>
-            <span>${order.total_amount?.toFixed(2) || '0.00'}</span>
+            <span>Rs. {totalAmount.toFixed(2)}</span>
           </div>
         </div>
       </div>
@@ -134,6 +154,12 @@ const OrderConfirmation = () => {
           onClick={() => navigate('/order-history')}
         >
           View All Orders
+        </button>
+        <button 
+          className="secondary-button" 
+          onClick={() => navigate('/dashboard')}
+        >
+          Go to Dashboard
         </button>
         <button 
           className="primary-button" 
