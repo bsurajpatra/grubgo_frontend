@@ -16,11 +16,12 @@ const ForgotPassword = () => {
         
         try {
             const response = await axios.post(API_ENDPOINTS.FORGOT_PASSWORD, { email });
-            setMessage(response.data.message);
+            setMessage(response.data.message || 'Password sent to your email. Please check your inbox and change it after logging in.');
             setIsError(false);
         } catch (error) {
             setMessage(error.response?.data?.message || 'An error occurred. Please try again.');
             setIsError(true);
+            console.error('Error during password recovery:', error);
         } finally {
             setIsLoading(false);
         }
@@ -38,6 +39,7 @@ const ForgotPassword = () => {
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
                             required
                         />
                     </div>
@@ -58,4 +60,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default ForgotPassword; 
