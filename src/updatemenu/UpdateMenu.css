@@ -1,0 +1,76 @@
+/* src/UpdateMenu.css */
+
+.update-menu-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative; /* Position relative for absolute positioning of the button */
+}
+
+.update-menu-table-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.update-menu-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.update-menu-table th, .update-menu-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    text-align: left;
+}
+
+.update-menu-table th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+}
+
+.update-menu-button, .back-to-dashboard-button {
+    background-color: #4a6cf7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 1rem; /* Space between buttons */
+}
+
+.update-menu-button:hover, .back-to-dashboard-button:hover {
+    background-color: #3a5ce5;
+}
+
+.back-button-container {
+    position: absolute; /* Position the button absolutely */
+    top: 1rem; /* Distance from the top */
+    right: 1rem; /* Distance from the right */
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+    .update-menu-container {
+        padding: 1rem; /* Reduce padding on mobile */
+    }
+
+    .update-menu-table th, .update-menu-table td {
+        padding: 0.75rem; /* Reduce padding in table cells on mobile */
+        font-size: 0.85rem; /* Smaller font size for table on mobile */
+    }
+
+    .update-menu-button, .back-to-dashboard-button {
+        width: 100%; /* Full width buttons on mobile */
+        margin: 0.5rem 0; /* Margin for spacing */
+    }
+}
