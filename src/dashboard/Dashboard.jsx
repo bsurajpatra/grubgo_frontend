@@ -153,7 +153,7 @@ const Dashboard = () => {
 </header>
 
         <div className="welcome-role-container">
-          <h1 className="welcome-message">Welcome, {name || email || 'Guest'}</h1>
+          <h1 className="welcome-message">Welcome, {name || 'Guest'}</h1>
         </div>
 
         <div className="quote-section">
