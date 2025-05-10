@@ -12,7 +12,6 @@ const Checkout = () => {
   const [success, setSuccess] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   
-  // Form state
   const [formData, setFormData] = useState({
     deliveryAddress: '',
     contactPhone: '',
