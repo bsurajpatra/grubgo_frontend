@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_ENDPOINTS } from '../config';
+import { API_ENDPOINTS, authAxiosConfig, handleApiError } from '../config';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -16,8 +16,7 @@ const Checkout = () => {
   const [formData, setFormData] = useState({
     deliveryAddress: '',
     contactPhone: '',
-    paymentMethod: 'cash',
-    specialInstructions: ''
+    paymentMethod: 'cash'
   });
 
   useEffect(() => {
@@ -39,11 +38,7 @@ const Checkout = () => {
           return;
         }
         
-        const response = await axios.get(API_ENDPOINTS.USER_PROFILE, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await axios.get(API_ENDPOINTS.USER_PROFILE, authAxiosConfig());
         
         if (response.data && response.data.address) {
           setFormData(prev => ({
@@ -102,31 +97,21 @@ const Checkout = () => {
         return;
       }
       
-      // Prepare order data
+      // Format order data according to API requirements
       const orderData = {
+        restaurant_id: cart[0].restaurantId,
         items: cart.map(item => ({
-          itemId: item.itemId,
+          menu_item_id: item.itemId,
           quantity: item.quantity,
-          price: item.price
+          item_price: item.price,
+          item_name: item.name
         })),
-        restaurantId: cart[0].restaurantId, // Assuming all items from same restaurant
-        deliveryAddress: formData.deliveryAddress,
-        contactPhone: formData.contactPhone,
-        paymentMethod: formData.paymentMethod,
-        specialInstructions: formData.specialInstructions,
-        subtotal: calculateSubtotal(),
-        tax: calculateTax(),
-        deliveryFee: calculateDeliveryFee(),
-        total: calculateTotal()
+        total_amount: calculateTotal(),
+        delivery_address: formData.deliveryAddress
       };
       
-      // Send order to backend
-      const response = await axios.post(API_ENDPOINTS.ORDERS, orderData, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
+      // Send order to backend using authAxiosConfig
+      const response = await axios.post(API_ENDPOINTS.ORDERS, orderData, authAxiosConfig());
       
       // Clear cart and show success message
       localStorage.removeItem('cart');
@@ -134,8 +119,8 @@ const Checkout = () => {
       setOrderPlaced(true);
       
       // Store order ID for tracking
-      if (response.data && response.data.orderId) {
-        localStorage.setItem('lastOrderId', response.data.orderId);
+      if (response.data && response.data.order_id) {
+        localStorage.setItem('lastOrderId', response.data.order_id);
       }
       
       setTimeout(() => {
@@ -144,7 +129,7 @@ const Checkout = () => {
       
     } catch (err) {
       console.error('Error placing order:', err);
-      setError('Unable to place your order. Please try again.');
+      setError(handleApiError(err) || 'Unable to place your order. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -217,18 +202,6 @@ const Checkout = () => {
                 <option value="card">Credit/Debit Card</option>
                 <option value="upi">UPI</option>
               </select>
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="specialInstructions">Special Instructions (Optional)</label>
-              <textarea
-                id="specialInstructions"
-                name="specialInstructions"
-                value={formData.specialInstructions}
-                onChange={handleInputChange}
-                placeholder="Any special instructions for delivery"
-                rows={2}
-              />
             </div>
             
             <div className="form-actions">

@@ -89,7 +89,7 @@ const OrderConfirmation = () => {
         <h2>Order Details</h2>
         <div className="order-info">
           <p><strong>Order ID:</strong> #{order.order_id}</p>
-          <p><strong>Date:</strong> {order.created_at ? new Date(order.created_at).toLocaleString() : new Date().toLocaleString()}</p>
+          <p><strong>Date:</strong> {new Date(order.created_at).toLocaleString()}</p>
           <p><strong>Restaurant:</strong> {order.restaurant_name}</p>
           <p><strong>Delivery Address:</strong> {order.delivery_address}</p>
           <p><strong>Status:</strong> <span className="status-badge">{order.status}</span></p>
@@ -146,4 +146,4 @@ const OrderConfirmation = () => {
   );
 };
 
-export default OrderConfirmation;
+export default OrderConfirmation; 
