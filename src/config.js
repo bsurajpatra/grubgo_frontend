@@ -1,5 +1,5 @@
 // Fallback to localhost if environment variable is not set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 export const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -21,7 +21,7 @@ export const authAxiosConfig = () => ({
 });
 
 export const API_ENDPOINTS = {
-  // Authentication - update these to match your backend
+  // Authentication
   LOGIN: `${API_BASE_URL}/auth/login`, 
   REGISTER: `${API_BASE_URL}/auth/register`, 
   MENU: `${API_BASE_URL}/dashboard/menu`, 
@@ -30,13 +30,12 @@ export const API_ENDPOINTS = {
   RESTAURANTS: `${API_BASE_URL}/restaurants`,
   RESTAURANT_MENU: (id) => `${API_BASE_URL}/restaurants/${id}/menu`,
   RESTAURANT_ORDERS: `${API_BASE_URL}/restaurants/orders`,
-
   
   // Order endpoints
   ORDERS: `${API_BASE_URL}/orders`,
   ORDER_HISTORY: `${API_BASE_URL}/customer/order-history`,
   ORDER_CONFIRMATION: (id) => `${API_BASE_URL}/orders/${id}/confirmation`,
-  ORDER_STATUS: (id) => `${API_BASE_URL}/orders/${id}/status`,
+  ORDER_STATUS: (id) => `${API_BASE_URL}/restaurants/orders/${id}/status`,
   
   // Delivery endpoints
   DELIVERIES: `${API_BASE_URL}/deliveries`,
@@ -52,7 +51,7 @@ export const API_ENDPOINTS = {
   ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/super-admin/delivery-partners`,
   ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/super-admin/community-presidents`,
   
-  // User profile - add the missing endpoints
+  // User profile
   USER_PROFILE: `${API_BASE_URL}/user/profile`,
   UPDATE_PROFILE: `${API_BASE_URL}/user/profile`,
   CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
@@ -66,10 +65,10 @@ export const handleApiError = (error) => {
       localStorage.removeItem('token');
       return 'Session expired. Please login again.';
     }
-    return error.response.data || 'An error occurred';
+    return error.response.data?.error || 'An error occurred';
   } else if (error.request) {
     return 'No response from server. Please try again.';
   } else {
     return error.message || 'An unexpected error occurred';
   }
-};
+}; 

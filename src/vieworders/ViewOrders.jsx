@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_ENDPOINTS, authAxiosConfig } from '../config';
+import { API_ENDPOINTS } from '../config';
 import './ViewOrders.css';
 import { toast } from 'react-toastify';
 
@@ -28,10 +28,57 @@ const ViewOrders = () => {
       setLoading(true);
       const email = localStorage.getItem('email');
       
+      console.log('Fetching orders with email:', email);
+      
+      if (!email) {
+        setError('No email found in localStorage. Please log in again.');
+        setLoading(false);
+        return;
+      }
+      
+      // First check database connection
+      try {
+        const dbTestResponse = await axios.get(`${API_ENDPOINTS.RESTAURANTS}/test-db`);
+        console.log('Database test response:', dbTestResponse.data);
+        
+        if (!dbTestResponse.data.success) {
+          setError(`Database connection error: ${dbTestResponse.data.error}`);
+          setLoading(false);
+          return;
+        }
+      } catch (dbErr) {
+        console.error('Database test error:', dbErr);
+        // Continue with the regular request even if the test fails
+      }
+      
+      // Then call the debug endpoint to check if restaurant lookup works
+      try {
+        const debugResponse = await axios.get(`${API_ENDPOINTS.RESTAURANTS}/debug`, {
+          params: { email }
+        });
+        console.log('Debug response:', debugResponse.data);
+        
+        if (!debugResponse.data.success) {
+          setError(`Debug error: ${debugResponse.data.error}`);
+          setLoading(false);
+          return;
+        }
+        
+        if (debugResponse.data.matchingRestaurants === 0) {
+          setError(`No restaurant found for owner email: ${email}. Please check that this email is associated with a restaurant.`);
+          setLoading(false);
+          return;
+        }
+      } catch (debugErr) {
+        console.error('Debug endpoint error:', debugErr);
+        // Continue with the regular request even if debug fails
+      }
+      
       const response = await axios.get(API_ENDPOINTS.RESTAURANT_ORDERS, {
-        ...authAxiosConfig(),
         params: { email }
       });
+
+      console.log('Response received:', response.data);
 
       if (response.data && response.data.orders) {
         setOrders(response.data.orders);
@@ -41,7 +88,24 @@ const ViewOrders = () => {
       setError(null);
     } catch (err) {
       console.error('Error fetching recent orders:', err);
-      setError('Unable to fetch recent orders. Please try again later.');
+      
+      // More detailed error logging
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Response data:', err.response.data);
+        console.error('Response status:', err.response.status);
+        console.error('Response headers:', err.response.headers);
+        setError(`Error ${err.response.status}: ${JSON.stringify(err.response.data)}`);
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error('Request made but no response received');
+        setError('No response received from server. Please check your connection.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', err.message);
+        setError(`Error: ${err.message}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -49,20 +113,35 @@ const ViewOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.patch(API_ENDPOINTS.ORDER_STATUS(orderId), 
+      const email = localStorage.getItem('email');
+      
+      if (!email) {
+        toast.error('No email found. Please log in again.');
+        return;
+      }
+      
+      console.log(`Updating order ${orderId} status to ${newStatus} with email: ${email}`);
+      
+      await axios.patch(
+        API_ENDPOINTS.ORDER_STATUS(orderId), 
         { status: newStatus },
-        authAxiosConfig()
+        { params: { email } }
       );
       
       // Update the order status locally
       setOrders(orders.map(order => 
-        order.id === orderId ? { ...order, status: newStatus } : order
+        order.order_id === orderId ? { ...order, status: newStatus } : order
       ));
       
       toast.success(`Order #${orderId} status updated to ${newStatus}`);
     } catch (err) {
       console.error('Error updating order status:', err);
-      toast.error('Failed to update order status. Please try again.');
+      
+      if (err.response) {
+        toast.error(`Failed to update status: ${JSON.stringify(err.response.data)}`);
+      } else {
+        toast.error('Failed to update order status. Please try again.');
+      }
     }
   };
 
@@ -74,7 +153,7 @@ const ViewOrders = () => {
     if (statusFilter === 'all') {
       return orders;
     }
-    return orders.filter(order => order.status.toLowerCase() === statusFilter);
+    return orders.filter(order => order.status.toLowerCase() === statusFilter.toLowerCase());
   };
 
   const getStatusBadgeClass = (status) => {
@@ -148,9 +227,9 @@ const ViewOrders = () => {
       ) : (
         <div className="orders-list">
           {getFilteredOrders().map(order => (
-            <div key={order.id} className="order-card">
+            <div key={order.order_id} className="order-card">
               <div className="order-header">
-                <span className="order-id">Order #{order.id}</span>
+                <span className="order-id">Order #{order.order_id}</span>
                 <span className={getStatusBadgeClass(order.status)}>
                   {order.status}
                 </span>
@@ -173,7 +252,7 @@ const ViewOrders = () => {
                       <li key={index}>
                         <span className="item-quantity">{item.quantity}x</span>
                         <span className="item-name">{item.name || item.item_name}</span>
-                        <span className="item-price">${item.price || item.item_price}</span>
+                        <span className="item-price">${parseFloat(item.item_price).toFixed(2)}</span>
                       </li>
                     ))
                   ) : (
@@ -181,7 +260,7 @@ const ViewOrders = () => {
                   )}
                 </ul>
                 <div className="order-total">
-                  <p><strong>Total:</strong> ${order.total_amount.toFixed(2)}</p>
+                  <p><strong>Total:</strong> ${parseFloat(order.total_amount).toFixed(2)}</p>
                 </div>
               </div>
               
@@ -198,13 +277,13 @@ const ViewOrders = () => {
                   {order.status.toLowerCase() === 'pending' && (
                     <>
                       <button 
-                        onClick={() => handleStatusChange(order.id, 'PREPARING')}
+                        onClick={() => handleStatusChange(order.order_id, 'PREPARING')}
                         className="action-button preparing"
                       >
                         Start Preparing
                       </button>
                       <button 
-                        onClick={() => handleStatusChange(order.id, 'CANCELLED')}
+                        onClick={() => handleStatusChange(order.order_id, 'CANCELLED')}
                         className="action-button cancel"
                       >
                         Cancel Order
@@ -214,7 +293,7 @@ const ViewOrders = () => {
                   
                   {order.status.toLowerCase() === 'preparing' && (
                     <button 
-                      onClick={() => handleStatusChange(order.id, 'READY')}
+                      onClick={() => handleStatusChange(order.order_id, 'READY')}
                       className="action-button ready"
                     >
                       Mark as Ready
@@ -223,7 +302,7 @@ const ViewOrders = () => {
                   
                   {order.status.toLowerCase() === 'ready' && (
                     <button 
-                      onClick={() => handleStatusChange(order.id, 'DELIVERED')}
+                      onClick={() => handleStatusChange(order.order_id, 'DELIVERED')}
                       className="action-button delivered"
                     >
                       Mark as Delivered
@@ -233,7 +312,7 @@ const ViewOrders = () => {
                   {(order.status.toLowerCase() !== 'delivered' && 
                     order.status.toLowerCase() !== 'cancelled') && (
                     <button 
-                      onClick={() => handleStatusChange(order.id, 'CANCELLED')}
+                      onClick={() => handleStatusChange(order.order_id, 'CANCELLED')}
                       className="action-button cancel"
                     >
                       Cancel Order
@@ -249,4 +328,4 @@ const ViewOrders = () => {
   );
 };
 
-export default ViewOrders;
+export default ViewOrders; 

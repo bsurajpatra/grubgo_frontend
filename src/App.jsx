@@ -3,7 +3,7 @@ import React from 'react';
 import Home from './home/Home';
 import SignIn from './signin/SignIn';
 import SignUp from './signup/SignUp';
-import Dashboard from './dashboard/Dashboard';
+import { Dashboard } from './dashboard/Dashboard';
 import { Routes, Route } from 'react-router-dom';
 import MITLicense from './mitlicense/MITLicense';
 import TermsOfService from './termsofservice/TermsOfService';

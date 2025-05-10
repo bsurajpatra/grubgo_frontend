@@ -207,4 +207,6 @@ const Dashboard = () => {
   );
 };
 
+// Use both named and default export for compatibility
+export { Dashboard };
 export default Dashboard;
