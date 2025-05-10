@@ -43,6 +43,8 @@ function SignIn() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', formData.email);
         localStorage.setItem('role', data.role);
+        console.log("Login successful, role set to:", data.role);
+        console.log("Is restaurant owner?", data.role === 'RESTAURANT_OWNER');
         console.log("Login successful, navigating to dashboard");
         navigate('/dashboard', { replace: true });
       } else {

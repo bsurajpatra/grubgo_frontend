@@ -14,6 +14,7 @@ import Profile from './profile/Profile';
 import OrderHistory from './orderhistory/OrderHistory';
 import Checkout from './checkout/Checkout';
 import OrderConfirmation from './orderconfirmation/OrderConfirmation';
+import ViewOrders from './vieworders/ViewOrders';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -51,6 +52,12 @@ const App = () => {
         <Route path="/order-history" element={
           <PrivateRoute>
             <OrderHistory />
+          </PrivateRoute>
+        } />
+        
+        <Route path="/view-orders" element={
+          <PrivateRoute>
+            <ViewOrders />
           </PrivateRoute>
         } />
         

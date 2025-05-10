@@ -29,11 +29,14 @@ export const API_ENDPOINTS = {
   // Restaurant endpoints
   RESTAURANTS: `${API_BASE_URL}/restaurants`,
   RESTAURANT_MENU: (id) => `${API_BASE_URL}/restaurants/${id}/menu`,
+  RESTAURANT_ORDERS: `${API_BASE_URL}/restaurants/orders`,
+
   
   // Order endpoints
   ORDERS: `${API_BASE_URL}/orders`,
   ORDER_HISTORY: `${API_BASE_URL}/customer/order-history`,
   ORDER_CONFIRMATION: (id) => `${API_BASE_URL}/orders/${id}/confirmation`,
+  ORDER_STATUS: (id) => `${API_BASE_URL}/orders/${id}/status`,
   
   // Delivery endpoints
   DELIVERIES: `${API_BASE_URL}/deliveries`,
@@ -54,7 +57,7 @@ export const API_ENDPOINTS = {
   UPDATE_PROFILE: `${API_BASE_URL}/user/profile`,
   CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
   DELETE_ACCOUNT: `${API_BASE_URL}/user/account`,
-  FORGOT_PASSWORD: `${API_BASE_URL}/password/forgot`
+  FORGOT_PASSWORD: `${API_BASE_URL}/password/forgot`,
 };
 
 export const handleApiError = (error) => {
