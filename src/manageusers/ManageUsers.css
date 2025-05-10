@@ -1,8 +1,13 @@
+/* src/manageusers/ManageUsers.css */
+
 .manage-users-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f9f9f9; /* Light background for contrast */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .manage-users-header {
@@ -151,7 +156,7 @@
 /* Responsive styles */
 @media (max-width: 768px) {
   .manage-users-container {
-    padding: 1rem;
+    padding: 1rem; /* Reduce padding on mobile */
   }
   
   .manage-users-header {
@@ -161,7 +166,7 @@
   
   .manage-users-table th, 
   .manage-users-table td {
-    padding: 0.75rem;
+    padding: 0.75rem; /* Reduce padding in table cells on mobile */
   }
   
   /* Make table responsive */
@@ -174,12 +179,12 @@
 
 @media (max-width: 480px) {
   .manage-users-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* Smaller heading size on mobile */
   }
   
   .manage-users-table th, 
   .manage-users-table td {
-    padding: 0.5rem;
-    font-size: 0.85rem;
+    padding: 0.5rem; /* Reduce padding in table cells on mobile */
+    font-size: 0.85rem; /* Smaller font size for table on mobile */
   }
-} 
+}
