@@ -22,8 +22,8 @@ export const authAxiosConfig = () => ({
 
 export const API_ENDPOINTS = {
   // Authentication - update these to match your backend
-  LOGIN: `${API_BASE_URL}/user/login`, 
-  REGISTER: `${API_BASE_URL}/user/register`, 
+  LOGIN: `${API_BASE_URL}/auth/login`, 
+  REGISTER: `${API_BASE_URL}/auth/register`, 
   MENU: `${API_BASE_URL}/dashboard/menu`, 
   
   // Restaurant endpoints
@@ -33,6 +33,7 @@ export const API_ENDPOINTS = {
   // Order endpoints
   ORDERS: `${API_BASE_URL}/customer/order-history`,
   RECENT_ORDERS: `${API_BASE_URL}/orders/recent`,
+  ORDER_CONFIRMATION: (id) => `${API_BASE_URL}/orders/${id}/confirmation`,
   
   // Delivery endpoints
   DELIVERIES: `${API_BASE_URL}/deliveries`,

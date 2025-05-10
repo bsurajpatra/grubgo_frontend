@@ -1,0 +1,236 @@
+.checkout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.checkout-container h1 {
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+}
+
+/* Form Styles */
+.checkout-form-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.checkout-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4a6cf7;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.primary-button,
+.secondary-button {
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.primary-button {
+  background-color: #4a6cf7;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #3a5bd9;
+}
+
+.primary-button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  color: #555;
+}
+
+.secondary-button:hover {
+  background-color: #f5f5f5;
+}
+
+/* Order Summary Styles */
+.order-summary {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  height: fit-content;
+}
+
+.order-summary h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.restaurant-name {
+  margin-bottom: 15px;
+}
+
+.restaurant-name h3 {
+  margin: 0;
+  color: #4a6cf7;
+}
+
+.cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-details {
+  display: flex;
+  gap: 10px;
+}
+
+.item-quantity {
+  color: #4a6cf7;
+  font-weight: 500;
+}
+
+.item-price {
+  font-weight: 500;
+}
+
+.price-breakdown {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.price-row.total {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.clear-cart-button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #ffcdd2;
+  color: #e53935;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.clear-cart-button:hover {
+  background-color: #ffebee;
+}
+
+/* Success and Error Messages */
+.error-message,
+.success-message {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #43a047;
+}
+
+.order-success {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-success h2 {
+  color: #43a047;
+  margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .order-summary {
+    order: -1;
+  }
+}

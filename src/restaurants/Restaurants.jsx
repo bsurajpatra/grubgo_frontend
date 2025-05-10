@@ -15,6 +15,8 @@ const Restaurants = () => {
   const [isUserLocationLoading, setIsUserLocationLoading] = useState(false);
   const [activeLocation, setActiveLocation] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
 
   const getAuthToken = () => localStorage.getItem('token');
@@ -151,6 +153,60 @@ const Restaurants = () => {
     navigate('/dashboard');
   };
 
+  // Add to cart function
+  const handleAddToCart = (item) => {
+    const restaurantInfo = restaurants.find(r => r.id === selectedRestaurant);
+    
+    // Check if item already exists in cart
+    const existingItem = cart.find(cartItem => cartItem.itemId === item.itemId);
+    
+    if (existingItem) {
+      // Update quantity if item exists
+      setCart(cart.map(cartItem => 
+        cartItem.itemId === item.itemId 
+          ? { ...cartItem, quantity: cartItem.quantity + 1 } 
+          : cartItem
+      ));
+    } else {
+      // Add new item to cart with restaurant info
+      setCart([...cart, { 
+        ...item, 
+        quantity: 1,
+        restaurantId: selectedRestaurant,
+        restaurantName: restaurantInfo?.name || 'Restaurant'
+      }]);
+    }
+  };
+
+  // Remove from cart function
+  const handleRemoveFromCart = (itemId) => {
+    setCart(cart.filter(item => item.itemId !== itemId));
+  };
+
+  // Update quantity function
+  const updateQuantity = (itemId, newQuantity) => {
+    if (newQuantity < 1) {
+      handleRemoveFromCart(itemId);
+      return;
+    }
+    
+    setCart(cart.map(item => 
+      item.itemId === itemId ? { ...item, quantity: newQuantity } : item
+    ));
+  };
+
+  // Calculate total price
+  const calculateTotal = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  // Proceed to checkout
+  const handleCheckout = () => {
+    // Save cart to localStorage or state management
+    localStorage.setItem('cart', JSON.stringify(cart));
+    navigate('/checkout');
+  };
+
   const RestaurantList = () => (
     <div className="restaurant-list">
       <div className="header-actions">
@@ -229,13 +285,63 @@ const Restaurants = () => {
   const RestaurantMenu = () => {
     const restaurant = restaurants.find((r) => r.id === selectedRestaurant);
 
+    // Function to get item quantity in cart
+    const getItemQuantity = (itemId) => {
+      const cartItem = cart.find(item => item.itemId === itemId);
+      return cartItem ? cartItem.quantity : 0;
+    };
+
     return (
       <div className="restaurant-menu">
         <div className="header-actions">
           <button className="back-button" onClick={handleBackToRestaurants}>
             ← Back to Restaurants
           </button>
+          <button 
+            className="cart-button" 
+            onClick={() => setIsCartOpen(!isCartOpen)}
+          >
+            🛒 Cart ({cart.reduce((total, item) => total + item.quantity, 0)})
+          </button>
         </div>
+        
+        {/* Cart Component */}
+        {isCartOpen && (
+          <div className="cart-container">
+            <div className="cart-header">
+              <h3>Your Cart</h3>
+              <button onClick={() => setIsCartOpen(false)} className="close-cart">×</button>
+            </div>
+            
+            {cart.length === 0 ? (
+              <p className="empty-cart">Your cart is empty</p>
+            ) : (
+              <>
+                <ul className="cart-items">
+                  {cart.map(item => (
+                    <li key={item.itemId} className="cart-item">
+                      <div className="cart-item-info">
+                        <h4>{item.name}</h4>
+                        <p>${item.price.toFixed(2)} × {item.quantity}</p>
+                      </div>
+                      <div className="cart-item-actions">
+                        <button onClick={() => updateQuantity(item.itemId, item.quantity - 1)}>-</button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.itemId, item.quantity + 1)}>+</button>
+                        <button onClick={() => handleRemoveFromCart(item.itemId)} className="remove-item">×</button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <div className="cart-total">
+                  <p>Total: <strong>${calculateTotal().toFixed(2)}</strong></p>
+                  <button onClick={handleCheckout} className="checkout-button">Proceed to Checkout</button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+        
         {restaurant && (
           <div className="restaurant-header">
             {restaurant.imageUrl && (
@@ -276,22 +382,58 @@ const Restaurants = () => {
               <div key={category} className="menu-category">
                 <h4>{category}</h4>
                 <div className="menu-items">
-                  {items.map((item) => (
-                    <div key={item.itemId} className="menu-item">
-                      <div className="menu-item-info">
-                        <h5>{item.name}</h5>
-                        <p>{item.description}</p>
-                        <span className="price">${item.price.toFixed(2)}</span>
+                  {items.map((item) => {
+                    const quantity = getItemQuantity(item.itemId);
+                    
+                    return (
+                      <div key={item.itemId} className="menu-item">
+                        <div className="menu-item-info">
+                          <h5>{item.name}</h5>
+                          <p>{item.description}</p>
+                          <span className="price">${item.price.toFixed(2)}</span>
+                          
+                          {quantity === 0 ? (
+                            <button 
+                              className="add-to-cart-button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddToCart(item);
+                              }}
+                            >
+                              Add to Cart
+                            </button>
+                          ) : (
+                            <div className="item-quantity-control">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateQuantity(item.itemId, quantity - 1);
+                                }}
+                              >
+                                -
+                              </button>
+                              <span>{quantity}</span>
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateQuantity(item.itemId, quantity + 1);
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        {item.imageUrl && (
+                          <img
+                            src={item.imageUrl}
+                            alt={item.name}
+                            className="menu-item-image"
+                          />
+                        )}
                       </div>
-                      {item.imageUrl && (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.name}
-                          className="menu-item-image"
-                        />
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}

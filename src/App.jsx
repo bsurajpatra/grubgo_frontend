@@ -12,6 +12,8 @@ import ForgotPassword from './forgotpassword/ForgotPassword';
 import Restaurants from './restaurants/Restaurants';
 import Profile from './profile/Profile';
 import OrderHistory from './orderhistory/OrderHistory';
+import Checkout from './checkout/Checkout';
+import OrderConfirmation from './orderconfirmation/OrderConfirmation';
 
 const App = () => {
   return (
@@ -45,6 +47,18 @@ const App = () => {
       <Route path="/order-history" element={
         <PrivateRoute>
           <OrderHistory />
+        </PrivateRoute>
+      } />
+      
+      <Route path="/checkout" element={
+        <PrivateRoute>
+          <Checkout />
+        </PrivateRoute>
+      } />
+      
+      <Route path="/order-confirmation" element={
+        <PrivateRoute>
+          <OrderConfirmation />
         </PrivateRoute>
       } />
     </Routes>
