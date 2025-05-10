@@ -1,3 +1,6 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 :root {
   --primary-color: #4a90e2;
@@ -8,6 +11,11 @@
   --border-radius: 8px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+  --success-color: #4CAF50;
+  --danger-color: #d9534f;
+  --danger-hover: #e60800;
+  --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --card-active-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -39,24 +47,65 @@
 .logo-title {
   display: flex;
   align-items: center;
+  animation: smoothRideIn 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes smoothRideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .app-logo {
   height: 50px;
   margin-right: 12px;
+  animation: smoothLogoSlide 1s ease-out forwards;
+}
+
+@keyframes smoothLogoSlide {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .app-title {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--primary-color);
   margin: 0;
   letter-spacing: -0.5px;
-  color: #4CAF50;
+  color: var(--success-color);
+  animation: titleFadeIn 0.8s ease-out 0.3s backwards;
+}
+
+@keyframes titleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .logout-button {
-  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -70,12 +119,17 @@
   white-space: nowrap;
   font-size: 0.9rem;
   line-height: 1.2;
-  background-color: #d9534f;
+  background-color: var(--danger-color);
 }
 
 .logout-button:hover {
-  background-color: #e60800;
+  background-color: var(--danger-hover);
   transform: translateY(-2px);
+}
+
+.logout-button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 
@@ -89,6 +143,18 @@
   margin: 0 0 8px 0;
   font-size: 1.8rem;
   color: var(--text-color);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .role-badge {
@@ -99,16 +165,35 @@
   border-radius: 20px;
   font-size: 0.85rem;
   margin: 0;
+  animation: badgePop 0.3s ease-out;
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 
 .quote-section {
   background-color: var(--secondary-color);
   border-radius: var(--border-radius);
-  padding: 16px;
+  padding: 20px;
   margin-bottom: 24px;
   text-align: center;
   box-shadow: var(--box-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-section::before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  font-size: 100px;
+  color: rgba(0, 0, 0, 0.05);
+  font-family: serif;
 }
 
 .random-quote {
@@ -116,6 +201,8 @@
   color: var(--light-text);
   margin: 0;
   font-size: 1.1rem;
+  position: relative;
+  z-index: 1;
 }
 
 
@@ -135,17 +222,55 @@
   text-align: center;
   cursor: pointer;
   box-shadow: var(--box-shadow);
-  transition: var(--transition);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+.menu-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--success-color), var(--primary-color));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .menu-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.menu-card:hover::before {
+  transform: scaleX(1);
+}
+
+.menu-card:active {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: var(--card-active-shadow);
 }
 
 .card-icon {
   font-size: 2.5rem;
   margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.menu-card:hover .card-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* Add a pulsing animation for the Browse Restaurants card */
+.menu-card:has(h3:contains("Browse Restaurants")) {
+  animation: subtle-pulse 3s infinite;
+}
+
+@keyframes subtle-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 .menu-card h3 {
@@ -171,6 +296,18 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  animation: fadeInUp 0.5s ease-out 0.8s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
@@ -202,57 +339,85 @@
   .welcome-message {
     font-size: 1.4rem;
   }
+
+  .dashboard-header {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .logo-title {
+    animation: mobileRideIn 0.8s ease-out forwards;
+  }
+
+  @keyframes mobileRideIn {
+    0% {
+      transform: translateX(50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .app-logo {
+    height: 40px;
+    margin-right: 8px;
+    animation: mobileLogoSlide 0.8s ease-out forwards;
+  }
+
+  @keyframes mobileLogoSlide {
+    0% {
+      transform: translateX(50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
 }
 
-
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .dashboard-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 16px;
+    padding: 12px;
   }
-  
+
   .logo-title {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
-  
+
+  .app-logo {
+    height: 35px;
+  }
+
   .app-title {
-    font-size: 1.5rem;
-  }
-  
-  .card-container {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .menu-card {
-    flex-direction: row;
-    text-align: left;
-    padding: 16px;
-    justify-content: flex-start;
-  }
-  
-  .card-icon {
-    font-size: 2rem;
-    margin-bottom: 0;
-    margin-right: 16px;
-  }
-  
-  .welcome-role-container {
-    align-items: center;
-    text-align: center;
-  }
-  
-  .role-badge {
-    align-self: center;
-  }
-  
-  .welcome-message {
     font-size: 1.3rem;
   }
-}
 
+  .header-right {
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .role-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  .logout-button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
 
 @media (max-width: 360px) {
   .dashboard-container {
@@ -270,5 +435,28 @@
   .card-icon {
     font-size: 1.8rem;
     margin-right: 12px;
+  }
+
+  .dashboard-header {
+    padding: 10px;
+  }
+
+  .app-logo {
+    height: 30px;
+  }
+
+  .app-title {
+    font-size: 1.2rem;
+  }
+
+  .header-right {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .role-badge, 
+  .logout-button {
+    width: 100%;
+    text-align: center;
   }
 }

@@ -149,7 +149,7 @@ const Dashboard = () => {
       'RESTAURANT_OWNER': ['View Orders', 'Update Menu', 'Profile'],
       'DELIVERY_PARTNER': ['View New Deliveries', 'Delivery History', 'Profile'],
       'COMMUNITY_PRESIDENT': ['View Restaurants/Partners', 'Set Local Commission', 'Profile'],
-      'SUPER_ADMIN': ['Manage Users', 'Manage Restaurants', 'Manage Delivery Partners', 'Manage Community Presidents', 'Profile']
+      'SUPER_ADMIN': ['Manage Users', 'Manage Restaurants', 'Manage Delivery Partners', 'Manage Community Presidents', 'Profile', 'Manage Users'],
     }[role] || ['Profile'];
     
     console.log("Menu items for role", role, ":", menuItems); // Debug log

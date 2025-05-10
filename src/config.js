@@ -1,5 +1,5 @@
 // Fallback to localhost if environment variable is not set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const getAuthHeader = () => {
   const token = localStorage.getItem('token');
@@ -49,11 +49,12 @@ export const API_ENDPOINTS = {
   COMMUNITY_COMMISSION: `${API_BASE_URL}/community/commission`,
   
   // Admin endpoints
-  ADMIN_USERS: `${API_BASE_URL}/super-admin/users`,
+  ADMIN_USERS: `${API_BASE_URL}/admin/users`,
   ADMIN_RESTAURANTS: `${API_BASE_URL}/super-admin/restaurants`,
   ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/super-admin/delivery-partners`,
   ADMIN_COMMUNITY_PRESIDENTS: `${API_BASE_URL}/super-admin/community-presidents`,
-  
+  ADMIN_RESTAURANT_OWNERS: `${API_BASE_URL}/admin/restaurant-owners `,
+  ADMIN_DELIVERY_PARTNERS: `${API_BASE_URL}/admin/delivery-partners`,
   // User profile
   USER_PROFILE: `${API_BASE_URL}/user/profile`,
   UPDATE_PROFILE: `${API_BASE_URL}/user/profile`,

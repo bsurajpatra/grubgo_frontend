@@ -1,3 +1,4 @@
+
 .restaurants-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -38,37 +39,48 @@
   }
   
   .restaurant-card {
-    border: 1px solid #eee;
-    border-radius: 8px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.5s ease-in-out;
+    background-color: #fff;
   }
   
   .restaurant-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
   
   .restaurant-image {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .restaurant-image:hover {
+    transform: scale(1.05);
   }
   
   .restaurant-info {
-    padding: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
   }
   
   .restaurant-info h3 {
     margin: 0 0 10px 0;
     color: #333;
+    font-size: 1.2em;
   }
   
   .restaurant-info p {
     margin: 5px 0;
     color: #666;
+    line-height: 1.5;
   }
   
   .rating {
@@ -136,6 +148,7 @@
     background: #f9f9f9;
     border-radius: 8px;
     border: 1px solid #eee;
+    animation: fadeInUp 0.5s ease-in-out;
   }
   
   .menu-item-info {
@@ -151,7 +164,11 @@
     height: 80px;
     object-fit: cover;
     border-radius: 4px;
-    margin-left: 15px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .menu-item-image:hover {
+    transform: scale(1.05);
   }
   
   .price {
@@ -185,20 +202,21 @@
 
 .location-search input {
   flex: 1;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid #ddd;
   border-radius: 4px;
   min-width: 200px;
 }
 
 .location-search button {
-  padding: 10px 15px;
+  padding: 8px 12px;
   background-color: #4a90e2;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
+  min-width: 80px;
 }
 
 .location-search button:hover {
@@ -257,6 +275,7 @@
   z-index: 1000;
   padding: 20px;
   overflow-y: auto;
+  animation: slideIn 0.5s ease-out;
 }
 
 .cart-header {
@@ -405,4 +424,180 @@
   font-weight: bold;
   min-width: 20px;
   text-align: center;
+}
+
+/* Add animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+  .restaurants-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .restaurant-info {
+    padding: 15px;
+  }
+
+  .restaurant-image {
+    height: 150px;
+  }
+
+  .location-search {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .location-search input,
+  .location-search button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .restaurant-info {
+    padding: 10px;
+  }
+
+  .restaurant-image {
+    height: 120px;
+  }
+}
+
+
+/* Enhanced Button Styles */
+button {
+  padding: 12px 24px;
+  font-size: 1em;
+  border-radius: 8px;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Specific Button Styles */
+.add-to-cart-button,
+.cart-button,
+.back-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 6px;
+  width: auto;
+  min-width: 100px;
+  transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart-button:hover,
+.cart-button:hover,
+.back-button:hover {
+  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+
+.add-to-cart-button:active,
+.cart-button:active,
+.back-button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart-button:disabled,
+.cart-button:disabled,
+.back-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.add-to-cart-button {
+  animation: buttonPulse 2s infinite;
+}
+
+/* Additional Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure buttons are on the same line */
+.button-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.button-container button {
+  flex: 1;
+  min-width: 100px;
 }

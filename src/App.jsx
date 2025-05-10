@@ -17,6 +17,9 @@ import OrderConfirmation from './orderconfirmation/OrderConfirmation';
 import ViewOrders from './vieworders/ViewOrders';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ManageUsers from './manageusers/ManageUsers';
+import ManageRestaurants from './managerestaurants/ManageRestaurants';
+import ManageDeliveryPartners from './managedeliverypartners/ManageDeliveryPartners';
 
 const App = () => {
   return (
@@ -70,6 +73,23 @@ const App = () => {
         <Route path="/order-confirmation" element={
           <PrivateRoute>
             <OrderConfirmation />
+          </PrivateRoute>
+        } />
+
+        <Route path="/manage-users" element={
+          <PrivateRoute>
+            <ManageUsers />
+          </PrivateRoute>
+        } />
+        <Route path="/manage-restaurants" element={
+          <PrivateRoute>
+            <ManageRestaurants />
+          </PrivateRoute>
+        } />
+
+<Route path="/manage-delivery-partners" element={
+          <PrivateRoute>
+            <ManageDeliveryPartners />
           </PrivateRoute>
         } />
       </Routes>
