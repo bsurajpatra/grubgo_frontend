@@ -27,7 +27,13 @@ const Checkout = () => {
       return;
     }
     
-    setCart(JSON.parse(savedCart));
+    const parsedCart = JSON.parse(savedCart);
+    setCart(parsedCart);
+    
+    // Store restaurant ID for back navigation
+    if (parsedCart.length > 0) {
+      localStorage.setItem('lastRestaurantId', parsedCart[0].restaurantId);
+    }
     
     // Pre-fill address from user profile if available
     const fetchUserProfile = async () => {
@@ -59,6 +65,21 @@ const Checkout = () => {
     };
     
     fetchUserProfile();
+  }, [navigate]);
+
+  // Handle browser back navigation
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      const lastRestaurantId = localStorage.getItem('lastRestaurantId');
+      if (lastRestaurantId) {
+        navigate(`/restaurant/${lastRestaurantId}`);
+      }
+    };
+
+    window.addEventListener('popstate', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('popstate', handleBeforeUnload);
+    };
   }, [navigate]);
 
   const handleInputChange = (e) => {
