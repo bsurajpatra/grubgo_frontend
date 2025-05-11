@@ -22,6 +22,8 @@ import ManageRestaurants from './managerestaurants/ManageRestaurants';
 import ManageDeliveryPartners from './managedeliverypartners/ManageDeliveryPartners';
 import ManageCommunityPresidents from './managecommunitypresidents/ManageCommunityPresidents';
 import UpdateMenu from './updatemenu/UpdateMenu';
+import NewDeliveries from './newdeliveries/NewDeliveries';
+import DeliveryHistory from './deliveryhistory/DeliveryHistory';
 
 const App = () => {
   return (
@@ -59,10 +61,23 @@ const App = () => {
             <OrderHistory />
           </PrivateRoute>
         } />
+         <Route path="/delivery-history" element={
+          <PrivateRoute>
+            <DeliveryHistory />
+          </PrivateRoute>
+        } />
+
+
         
         <Route path="/view-orders" element={
           <PrivateRoute>
             <ViewOrders />
+          </PrivateRoute>
+        } />
+
+        <Route path="/new-deliveries" element={
+          <PrivateRoute>
+            <NewDeliveries />
           </PrivateRoute>
         } />
         
