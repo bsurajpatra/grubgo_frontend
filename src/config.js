@@ -1,5 +1,5 @@
 // Fallback to localhost if environment variable is not set
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://celebrated-stroopwafel-6846ca.netlify.app/api';
+const API_BASE_URL = "https://celebrated-stroopwafel-6846ca.netlify.app/api";
 export const getAuthHeader = () => {
   const token = localStorage.getItem('token');
   return token ? { Authorization: `Bearer ${token}` } : {};
