@@ -21,6 +21,7 @@ import ManageUsers from './manageusers/ManageUsers';
 import ManageRestaurants from './managerestaurants/ManageRestaurants';
 import ManageDeliveryPartners from './managedeliverypartners/ManageDeliveryPartners';
 import ManageCommunityPresidents from './managecommunitypresidents/ManageCommunityPresidents';
+import UpdateMenu from './updatemenu/UpdateMenu';
 
 const App = () => {
   return (
@@ -91,6 +92,12 @@ const App = () => {
 <Route path="/manage-delivery-partners" element={
           <PrivateRoute>
             <ManageDeliveryPartners />
+          </PrivateRoute>
+        } />
+
+<Route path="/update-menu" element={
+          <PrivateRoute>
+            <UpdateMenu />
           </PrivateRoute>
         } />
 
