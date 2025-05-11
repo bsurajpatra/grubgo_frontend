@@ -24,6 +24,8 @@ import ManageCommunityPresidents from './managecommunitypresidents/ManageCommuni
 import UpdateMenu from './updatemenu/UpdateMenu';
 import NewDeliveries from './newdeliveries/NewDeliveries';
 import DeliveryHistory from './deliveryhistory/DeliveryHistory';
+import RestaurantsPartners from './restaurantspartners/RestaurantsPartners';
+import SetCommission from './setcommision/SetCommission';
 
 const App = () => {
   return (
@@ -67,7 +69,11 @@ const App = () => {
           </PrivateRoute>
         } />
 
-
+<Route path="/set-commission" element={
+          <PrivateRoute>
+            <SetCommission />
+          </PrivateRoute>
+        } />
         
         <Route path="/view-orders" element={
           <PrivateRoute>
@@ -113,6 +119,12 @@ const App = () => {
 <Route path="/update-menu" element={
           <PrivateRoute>
             <UpdateMenu />
+          </PrivateRoute>
+        } />
+
+<Route path="/restaurants-partners" element={
+          <PrivateRoute>
+            <RestaurantsPartners />
           </PrivateRoute>
         } />
 
